@@ -22,9 +22,16 @@
 
 @implementation ViewController
 
+@synthesize deck = _deck;
+
 - (Deck *)deck
 {
-	return _deck ? _deck : [[PlayingCardDeck alloc] init];
+	if (!_deck) {
+		//NSLog(@"Initializing new Deck instance.");
+		_deck = [[PlayingCardDeck alloc] init];
+	}
+
+	return _deck;
 }
 
 - (void)setFlipCount:(int)flipCount
@@ -42,7 +49,12 @@
 	} else {
 		[sender setBackgroundImage:[UIImage imageNamed:@"cardfront"]
 						  forState:UIControlStateNormal];
-		[sender setTitle:[self.deck drawRandomCard].contents forState:UIControlStateNormal];
+		NSString *title = [self.deck drawRandomCard].contents;
+		if (![title length]) {
+			NSLog(@"Deck is empty!");
+			title = @"?";
+		}
+		[sender setTitle:title forState:UIControlStateNormal];
 	}
 	self.flipCount++;
 }

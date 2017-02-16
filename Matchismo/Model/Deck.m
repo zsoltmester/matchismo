@@ -46,6 +46,8 @@
 		[self.cards removeObjectAtIndex:index];
 	}
 
+	//NSLog(@"deck size:%lu", [self.cards count]);
+
 	return randomCard;
 }
 

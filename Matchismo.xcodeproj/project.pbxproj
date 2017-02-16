@@ -138,6 +138,7 @@
 				TargetAttributes = {
 					E7F95CFC1E3CC1AE00EB41FB = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = TA8QE3C2AH;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -302,6 +303,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = TA8QE3C2AH;
 				INFOPLIST_FILE = Matchismo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = zsmester.Matchismo;
@@ -313,6 +315,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = TA8QE3C2AH;
 				INFOPLIST_FILE = Matchismo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = zsmester.Matchismo;
@@ -339,6 +342,7 @@
 				E7F95D161E3CC1AE00EB41FB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
