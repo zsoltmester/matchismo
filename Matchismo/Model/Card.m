@@ -25,7 +25,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	Card *copy = [[[self class] alloc] init];
+	Card *copy = [[self class] new];
 	copy.contents = [self.contents copyWithZone:zone];
 	copy.chosen = self.chosen;
 	copy.matched = self.matched;
