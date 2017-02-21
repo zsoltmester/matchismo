@@ -13,14 +13,27 @@
 #import "CardMatchingGame.h"
 
 @interface ViewController ()
+
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (weak, nonatomic) IBOutlet UILabel *infoLabel;
-@property (weak, nonatomic) IBOutlet UISwitch *modeSwitch;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *modeSegmentControl;
+@property (weak, nonatomic) IBOutlet UISlider *historySlider;
+
 @property (strong, nonatomic) CardMatchingGame *game;
+
+@property (strong, nonatomic) NSMutableArray *history; // of CardMatchingGame
 @end
 
 @implementation ViewController
+
+- (NSMutableArray *)history
+{
+	if (!_history) {
+		_history = [[NSMutableArray alloc] init];
+	}
+	return _history;
+}
 
 - (CardMatchingGame *)game
 {
@@ -41,24 +54,56 @@
 											 usingDeck:[self createDeck]];
 }
 
+- (void)updateHistory
+{
+	[self.history addObject:[self.game copy]];
+	self.historySlider.enabled = YES;
+	self.historySlider.continuous = YES; // TODO move to a view controller lifecycle method
+	self.historySlider.minimumValue = 0; // TODO move to a view controller lifecycle method
+	self.historySlider.maximumValue = [self.history count] - 1;
+	if (self.historySlider.maximumValue == 0) {
+		self.historySlider.maximumValue = 1;
+	}
+	self.historySlider.value = self.historySlider.maximumValue;
+}
+
 - (IBAction)touchCardButton:(UIButton *)sender
 {
+	if (self.historySlider.value != self.historySlider.maximumValue) {
+		return;
+	}
+
 	NSUInteger chosenButtonIndex = [self.cardButtons indexOfObject:sender];
 	[self.game chooseCardAtIndex:chosenButtonIndex];
 	[self updateUI];
-	self.modeSwitch.enabled = NO;
+	self.modeSegmentControl.enabled = NO;
+	[self updateHistory];
 }
 
 - (IBAction)touchNewGameButton:(UIButton *)sender
 {
 	_game = [self createGame];
+	self.game.mode = self.modeSegmentControl.selectedSegmentIndex == 0 ? TwoCardsMode : ThreeCardsMode;
 	[self updateUI];
-	self.modeSwitch.enabled = YES;
+	self.modeSegmentControl.enabled = YES;
 	self.infoLabel.text = @"Click on a card to start the game";
+
+	[self.history removeAllObjects];
+	[self updateHistory];
+	self.historySlider.enabled = NO;
 }
 
-- (IBAction)modeSwitchChanged:(UISwitch *)sender {
-	self.game.mode = sender.isOn ? ThreeCardsMode : TwoCardsMode;
+- (IBAction)modeSegmentControlChange:(UISegmentedControl *)sender
+{
+	self.game.mode = sender.selectedSegmentIndex == 0 ? TwoCardsMode : ThreeCardsMode;
+}
+
+- (IBAction)historySliderChanged:(UISlider *)sender
+{
+	NSUInteger index = (NSUInteger)(sender.value + 0.5);
+	[sender setValue:index animated:NO];
+	self.game = self.history[index];
+	[self updateUI];
 }
 
 - (void)updateUI

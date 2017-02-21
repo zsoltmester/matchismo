@@ -15,6 +15,8 @@
 @property (nonatomic, getter=isChosen) BOOL chosen;
 @property (nonatomic, getter=isMatched) BOOL matched;
 
+- (id)copyWithZone:(NSZone *)zone;
+
 - (int)match:(NSArray *)otherCards;
 
 @end

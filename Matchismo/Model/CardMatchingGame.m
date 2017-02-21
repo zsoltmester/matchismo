@@ -55,9 +55,16 @@ static const int COST_TO_CHOOSE = 1;
 	return self;
 }
 
-- (instancetype)init
+-(id)copyWithZone:(NSZone *)zone
 {
-	return nil;
+	CardMatchingGame *copy = [[CardMatchingGame alloc] init];
+	copy.score = self.score;
+	copy.mode = self.mode;
+	copy.cards = [[NSMutableArray alloc] initWithArray:self.cards copyItems:YES];
+	copy.lastStatus = self.lastStatus;
+	copy.lastCards = self.lastCards;
+	copy.lastScore = self.lastScore;
+	return copy;
 }
 
 - (Card *)cardAtIndex:(NSUInteger)index

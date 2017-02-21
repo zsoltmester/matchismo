@@ -23,4 +23,13 @@
 	return score;
 }
 
+- (id)copyWithZone:(NSZone *)zone
+{
+	Card *copy = [[[self class] alloc] init];
+	copy.contents = [self.contents copyWithZone:zone];
+	copy.chosen = self.chosen;
+	copy.matched = self.matched;
+	return copy;
+}
+
 @end

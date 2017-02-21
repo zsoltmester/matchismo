@@ -13,6 +13,14 @@
 static const int SCORE_MATCHING_RANK = 4;
 static const int SCORE_MATCHING_SUIT = 1;
 
+- (id)copyWithZone:(NSZone *)zone
+{
+	PlayingCard *copy = [super copyWithZone:zone];
+	copy.suit = self.suit;
+	copy.rank = self.rank;
+	return copy;
+}
+
 - (int)match:(NSArray *)otherCards
 {
 	NSMutableArray *allCards = [[NSMutableArray alloc] initWithArray:otherCards];
