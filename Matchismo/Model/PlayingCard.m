@@ -15,17 +15,29 @@ static const int SCORE_MATCHING_SUIT = 1;
 
 - (int)match:(NSArray *)otherCards
 {
+	NSMutableArray *allCards = [[NSMutableArray alloc] initWithArray:otherCards];
+	[allCards addObject:self];
+
+	return [PlayingCard match:allCards];
+}
+
++ (int)match:(NSArray *)cards
+{
 	int score = 0;
 
-	if ([otherCards count] == 1) {
-		id firstObject = [otherCards firstObject];
-		if ([firstObject isKindOfClass:[PlayingCard class]]) {
-			PlayingCard *otherCard = (PlayingCard *) firstObject;
-			if (otherCard.rank == self.rank) {
-				score += SCORE_MATCHING_RANK;
-			} else if ([otherCard.suit isEqualToString:self.suit]) {
-				score += SCORE_MATCHING_SUIT;
-			}
+	for (NSString *suit in [PlayingCard validSuits]) {
+		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"suit = %@", suit];
+		NSUInteger matched = [[cards filteredArrayUsingPredicate:predicate] count];
+		if (matched > 1) {
+			score += SCORE_MATCHING_SUIT * (pow(matched - 1, 2));
+		}
+	}
+
+	for (int rank = 0; rank <= [PlayingCard maxRank]; ++rank) {
+		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"rank = %d", rank];
+		NSUInteger matched = [[cards filteredArrayUsingPredicate:predicate] count];
+		if (matched > 1) {
+			score += SCORE_MATCHING_RANK * (pow(matched - 1, 2));
 		}
 	}
 
