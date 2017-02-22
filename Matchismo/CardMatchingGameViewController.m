@@ -6,13 +6,11 @@
 //  Copyright © 2017. Zsolt Mester. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "CardMatchingGameViewController.h"
 
-#import "Deck.h"
-#import "PlayingCardDeck.h"
 #import "CardMatchingGame.h"
 
-@interface ViewController ()
+@interface CardMatchingGameViewController ()
 
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
@@ -23,9 +21,18 @@
 @property (strong, nonatomic) CardMatchingGame *game;
 
 @property (strong, nonatomic) NSMutableArray *history; // of CardMatchingGame
+
 @end
 
-@implementation ViewController
+@implementation CardMatchingGameViewController
+
+- (void)viewDidLoad
+{
+	self.historySlider.continuous = YES;
+	self.historySlider.minimumValue = 0;
+	[self updateHistory];
+	self.historySlider.enabled = NO;
+}
 
 - (NSMutableArray *)history
 {
@@ -43,9 +50,9 @@
 	return _game;
 }
 
-- (Deck *)createDeck
+- (Deck *)createDeck // abstract
 {
-	return [[PlayingCardDeck alloc] init];
+	return nil;
 }
 
 - (CardMatchingGame *)createGame
@@ -58,8 +65,6 @@
 {
 	[self.history addObject:[self.game copy]];
 	self.historySlider.enabled = YES;
-	self.historySlider.continuous = YES; // TODO move to a view controller lifecycle method
-	self.historySlider.minimumValue = 0; // TODO move to a view controller lifecycle method
 	self.historySlider.maximumValue = [self.history count] - 1;
 	if (self.historySlider.maximumValue == 0) {
 		self.historySlider.maximumValue = 1;
