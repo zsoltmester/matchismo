@@ -9,15 +9,16 @@
 #import "PlayingCardMatchingGameViewController.h"
 #import "PlayingCardDeck.h"
 
-@interface PlayingCardMatchingGameViewController ()
-
-@end
-
 @implementation PlayingCardMatchingGameViewController
 
 - (Deck *)createDeck
 {
 	return [PlayingCardDeck new];
+}
+
+- (GameMode)gameMode
+{
+	return TwoCards;
 }
 
 @end

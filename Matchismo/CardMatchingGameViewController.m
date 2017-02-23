@@ -8,18 +8,13 @@
 
 #import "CardMatchingGameViewController.h"
 
-#import "CardMatchingGame.h"
-
 @interface CardMatchingGameViewController ()
 
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (weak, nonatomic) IBOutlet UILabel *infoLabel;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *modeSegmentControl;
 @property (weak, nonatomic) IBOutlet UISlider *historySlider;
-
 @property (strong, nonatomic) CardMatchingGame *game;
-
 @property (strong, nonatomic) NSMutableArray *history; // of CardMatchingGame
 
 @end
@@ -46,8 +41,14 @@
 {
 	if (!_game) {
 		_game = [self createGame];
+		_game.mode = [self gameMode];
 	}
 	return _game;
+}
+
+- (GameMode)gameMode // abstract
+{
+	return -1;
 }
 
 - (Deck *)createDeck // abstract
@@ -81,26 +82,18 @@
 	NSUInteger chosenButtonIndex = [self.cardButtons indexOfObject:sender];
 	[self.game chooseCardAtIndex:chosenButtonIndex];
 	[self updateUI];
-	self.modeSegmentControl.enabled = NO;
 	[self updateHistory];
 }
 
 - (IBAction)touchNewGameButton:(UIButton *)sender
 {
 	_game = [self createGame];
-	self.game.mode = self.modeSegmentControl.selectedSegmentIndex == 0 ? TwoCardsMode : ThreeCardsMode;
 	[self updateUI];
-	self.modeSegmentControl.enabled = YES;
 	self.infoLabel.text = @"Click on a card to start the game";
 
 	[self.history removeAllObjects];
 	[self updateHistory];
 	self.historySlider.enabled = NO;
-}
-
-- (IBAction)modeSegmentControlChange:(UISegmentedControl *)sender
-{
-	self.game.mode = sender.selectedSegmentIndex == 0 ? TwoCardsMode : ThreeCardsMode;
 }
 
 - (IBAction)historySliderChanged:(UISlider *)sender
@@ -119,20 +112,20 @@
 		[cardButton setTitle:[self titleForCard:card] forState:UIControlStateNormal];
 		[cardButton setBackgroundImage:[self backgroundImageForCard:card] forState:UIControlStateNormal];
 		cardButton.enabled = !card.isMatched;
-		self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", self.game.score];
+		self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", (long)self.game.score];
 		NSMutableString *lastCards = [NSMutableString string];
 		for (Card* lastCard in self.game.lastCards) {
-			[lastCards appendString:[NSString stringWithFormat:@"%@ ", lastCard.contents]];
+			[lastCards appendString:[NSString stringWithFormat:@"%@ ", [self titleForCard:lastCard]]];
 		}
 		switch (self.game.lastStatus) {
 			case NOTHING:
 				self.infoLabel.text = [NSString stringWithString:lastCards];
 				break;
 			case MATCH:
-				self.infoLabel.text = [NSString stringWithFormat:@"Matched %@ for %ld points.", lastCards, self.game.lastScore];
+				self.infoLabel.text = [NSString stringWithFormat:@"Matched %@ for %ld points.", lastCards, (long)self.game.lastScore];
 				break;
 			case MISMATCH:
-				self.infoLabel.text = [NSString stringWithFormat:@"%@ don't match! %ld points penalty.", lastCards, self.game.lastScore];
+				self.infoLabel.text = [NSString stringWithFormat:@"%@ don't match! %ld points penalty.", lastCards, (long)self.game.lastScore];
 				break;
 		}
 	}

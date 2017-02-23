@@ -18,7 +18,9 @@
 
 - (NSMutableArray *)cards
 {
-	if(!_cards) _cards = [[NSMutableArray alloc] init];
+	if(!_cards) {
+		_cards = [NSMutableArray new];
+	}
 	return _cards;
 }
 
@@ -45,8 +47,6 @@
 		randomCard = self.cards[index];
 		[self.cards removeObjectAtIndex:index];
 	}
-
-	//NSLog(@"deck size:%lu", [self.cards count]);
 
 	return randomCard;
 }

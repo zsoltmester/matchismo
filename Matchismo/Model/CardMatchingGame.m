@@ -1,19 +1,18 @@
 //
-//  CardMatchingGame.m
+//  Game.m
 //  Matchismo
 //
-//  Created by Zsolt Mester on 2017. 02. 17..
+//  Created by Zsolt Mester on 2017. 02. 23..
 //  Copyright © 2017. Zsolt Mester. All rights reserved.
 //
 
 #import "CardMatchingGame.h"
 
-
 @interface CardMatchingGame()
 
-@property (nonatomic, readwrite) NSInteger score;
 @property (nonatomic, strong) NSMutableArray *cards; // of Card
-@property (nonatomic, readwrite) CardMatchingGameModeLastStatus lastStatus;
+@property (nonatomic, readwrite) NSInteger score;
+@property (nonatomic, readwrite) GameLastStatus lastStatus;
 @property (nonatomic, strong, readwrite) NSArray *lastCards; // of Card
 @property (nonatomic, readwrite) NSInteger lastScore;
 
@@ -21,23 +20,34 @@
 
 @implementation CardMatchingGame
 
-static const int MISMATCH_PENALTY = 2;
-static const int MATCH_BONUS = 4;
 static const int COST_TO_CHOOSE = 1;
+static const int MATCH_BONUS = 4;
+static const int MISMATCH_PENALTY = 2;
+
+-(id)copyWithZone:(NSZone *)zone
+{
+	CardMatchingGame *copy = [[self class] new];
+	copy.score = self.score;
+	copy.mode = self.mode;
+	copy.cards = [[NSMutableArray alloc] initWithArray:self.cards copyItems:YES];
+	copy.lastStatus = self.lastStatus;
+	copy.lastCards = self.lastCards;
+	copy.lastScore = self.lastScore;
+	return copy;
+}
 
 - (NSMutableArray *)cards
 {
 	if (!_cards) {
-		_cards = [[NSMutableArray alloc] init];
+		_cards = [NSMutableArray new];
 	}
-
 	return _cards;
 }
 
 - (instancetype)initWithCardCount:(NSUInteger)count
 						usingDeck:(Deck *)deck
 {
-	self = [super init]; // super's designated initialzer
+	self = [super init];
 
 	if (self) {
 		for (int i = 0; i < count; ++i) {
@@ -55,27 +65,15 @@ static const int COST_TO_CHOOSE = 1;
 	return self;
 }
 
--(id)copyWithZone:(NSZone *)zone
+- (NSArray *)getChosenCards
 {
-	CardMatchingGame *copy = [[CardMatchingGame alloc] init];
-	copy.score = self.score;
-	copy.mode = self.mode;
-	copy.cards = [[NSMutableArray alloc] initWithArray:self.cards copyItems:YES];
-	copy.lastStatus = self.lastStatus;
-	copy.lastCards = self.lastCards;
-	copy.lastScore = self.lastScore;
-	return copy;
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"chosen = YES AND matched = NO"];
+	return [self.cards filteredArrayUsingPredicate:predicate];
 }
 
 - (Card *)cardAtIndex:(NSUInteger)index
 {
 	return (index < [self.cards count]) ? self.cards[index] : nil;
-}
-
-- (NSArray *)getChosenCards
-{
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"chosen = YES AND matched = NO"];
-	return [self.cards filteredArrayUsingPredicate:predicate];
 }
 
 - (void)chooseCardAtIndex:(NSUInteger)index
@@ -106,7 +104,7 @@ static const int COST_TO_CHOOSE = 1;
 	card.chosen = YES;
 	self.lastCards = [self getChosenCards];
 
-	if ([otherCards count] + 1 < (self.mode == TwoCardsMode ? 2 : 3)) {
+	if ([otherCards count] + 1 < (self.mode == TwoCards ? 2 : 3)) {
 		self.lastStatus = NOTHING;
 		return;
 	}

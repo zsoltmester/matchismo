@@ -13,7 +13,6 @@
 @property (strong, nonatomic) NSString *suit;
 @property (nonatomic) NSUInteger rank;
 
-+ (int)match:(NSArray *)cards;
 + (NSArray *)validSuits;
 + (NSUInteger)maxRank;
 
