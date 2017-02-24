@@ -7,6 +7,7 @@
 //
 
 #import "CardMatchingGameViewController.h"
+#import "HistoryViewController.h"
 
 @interface CardMatchingGameViewController ()
 
@@ -16,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UISlider *historySlider;
 @property (strong, nonatomic) CardMatchingGame *game;
 @property (strong, nonatomic) NSMutableArray *history; // of CardMatchingGame
+@property (strong, nonatomic) NSMutableArray *historyInfos; // of NSAttributedString
 
 @end
 
@@ -35,6 +37,14 @@
 		_history = [[NSMutableArray alloc] init];
 	}
 	return _history;
+}
+
+- (NSMutableArray *)historyInfos
+{
+	if (!_historyInfos) {
+		_historyInfos = [[NSMutableArray alloc] init];
+	}
+	return _historyInfos;
 }
 
 - (CardMatchingGame *)game
@@ -131,12 +141,14 @@
 			[matchText appendAttributedString:lastCards];
 			[matchText appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" for %ld points.", (long)self.game.lastScore]]];
 			self.infoLabel.attributedText = matchText;
+			[self.historyInfos addObject:matchText];
 			break;
 		}
 		case MISMATCH: {
 			NSMutableAttributedString *mismatchText = [[NSMutableAttributedString alloc] initWithAttributedString:lastCards];
 			[mismatchText appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" don't match! %ld points penalty.", (long)self.game.lastScore]]];
 			self.infoLabel.attributedText = mismatchText;
+			[self.historyInfos addObject:mismatchText];
 			break;
 		}
 	}
@@ -150,6 +162,14 @@
 - (UIImage *)backgroundImageForCard:(Card *)card
 {
 	return [UIImage imageNamed:card.isChosen ? @"cardfront" : @"cardback"];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+	if ([[segue identifier] isEqualToString:@"showHistorySegue"]) {
+		HistoryViewController *historyViewController = [segue destinationViewController];
+		historyViewController.historyInfos = self.historyInfos;
+	}
 }
 
 @end
