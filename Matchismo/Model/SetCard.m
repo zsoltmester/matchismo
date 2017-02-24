@@ -28,9 +28,9 @@ static const int SCORE_MATCH = 1;
 + (BOOL)matchFeature:(NSString *)feature
 			forCards:(NSArray *)cards
 {
-	id featureForCardOne = [cards[0] valueForKey:feature];
-	id featureForCardTwo = [cards[1] valueForKey:feature];
-	id featureForCardThree = [cards[2] valueForKey:feature];
+	NSInteger featureForCardOne = (NSInteger)[cards[0] valueForKey:feature];
+	NSInteger featureForCardTwo = (NSInteger)[cards[1] valueForKey:feature];
+	NSInteger featureForCardThree = (NSInteger)[cards[2] valueForKey:feature];
 
 	return (featureForCardOne == featureForCardTwo && featureForCardOne == featureForCardThree) || (featureForCardOne != featureForCardTwo && featureForCardOne != featureForCardThree && featureForCardTwo != featureForCardThree);
 }
