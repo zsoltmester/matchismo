@@ -21,4 +21,11 @@
 	return TwoCards;
 }
 
+
+- (NSAttributedString *)titleForCard:(Card*)card
+{
+	NSDictionary *attrs = @{ NSForegroundColorAttributeName : [UIColor blackColor] };
+	return [[NSAttributedString alloc] initWithString:card.contents attributes:attrs];
+}
+
 @end

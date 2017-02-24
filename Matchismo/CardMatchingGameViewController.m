@@ -142,9 +142,9 @@
 	}
 }
 
-- (NSAttributedString *)titleForCard:(Card*)card
+- (NSAttributedString *)titleForCard:(Card*)card // abstract
 {
-	return [[NSAttributedString alloc] initWithString:card.contents];
+	return nil;
 }
 
 - (UIImage *)backgroundImageForCard:(Card *)card

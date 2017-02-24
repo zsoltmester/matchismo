@@ -15,6 +15,7 @@
 
 - (GameMode)gameMode; // abstract
 - (Deck *)createDeck; // abstract
+- (NSAttributedString *)titleForCard:(Card*)card; // abstract
 
 @end
 
