@@ -12,6 +12,16 @@
 
 static const int SCORE_MATCH = 1;
 
+- (id)copyWithZone:(NSZone *)zone
+{
+	SetCard *copy = [super copyWithZone:zone];
+	copy.number = self.number;
+	copy.symbol = self.symbol;
+	copy.shading = self.shading;
+	copy.color = self.color;
+	return copy;
+}
+
 - (int)match:(NSArray *)otherCards
 {
 	NSMutableArray *cards = [NSMutableArray arrayWithArray:otherCards];

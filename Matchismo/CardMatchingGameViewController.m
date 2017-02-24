@@ -109,31 +109,42 @@
 	for (UIButton *cardButton in self.cardButtons) {
 		NSUInteger cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
 		Card *card = [self.game cardAtIndex:cardButtonIndex];
-		[cardButton setTitle:[self titleForCard:card] forState:UIControlStateNormal];
+		NSAttributedString *title = card.isChosen ? [self titleForCard:card] : [[NSAttributedString alloc] initWithString:@""];
+		[cardButton setAttributedTitle:title forState:UIControlStateNormal];
 		[cardButton setBackgroundImage:[self backgroundImageForCard:card] forState:UIControlStateNormal];
 		cardButton.enabled = !card.isMatched;
-		self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", (long)self.game.score];
-		NSMutableString *lastCards = [NSMutableString string];
-		for (Card* lastCard in self.game.lastCards) {
-			[lastCards appendString:[NSString stringWithFormat:@"%@ ", [self titleForCard:lastCard]]];
+	}
+
+	self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", (long)self.game.score];
+
+	NSMutableAttributedString *lastCards = [[NSMutableAttributedString alloc] initWithString:@""];
+	for (Card* lastCard in self.game.lastCards) {
+		[lastCards appendAttributedString:[self titleForCard:lastCard]];
+	}
+
+	switch (self.game.lastStatus) {
+		case NOTHING:
+			self.infoLabel.attributedText = lastCards;
+			break;
+		case MATCH: {
+			NSMutableAttributedString *matchText = [[NSMutableAttributedString alloc] initWithString:@"Matched "];
+			[matchText appendAttributedString:lastCards];
+			[matchText appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" for %ld points.", (long)self.game.lastScore]]];
+			self.infoLabel.attributedText = matchText;
+			break;
 		}
-		switch (self.game.lastStatus) {
-			case NOTHING:
-				self.infoLabel.text = [NSString stringWithString:lastCards];
-				break;
-			case MATCH:
-				self.infoLabel.text = [NSString stringWithFormat:@"Matched %@ for %ld points.", lastCards, (long)self.game.lastScore];
-				break;
-			case MISMATCH:
-				self.infoLabel.text = [NSString stringWithFormat:@"%@ don't match! %ld points penalty.", lastCards, (long)self.game.lastScore];
-				break;
+		case MISMATCH: {
+			NSMutableAttributedString *mismatchText = [[NSMutableAttributedString alloc] initWithAttributedString:lastCards];
+			[mismatchText appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" don't match! %ld points penalty.", (long)self.game.lastScore]]];
+			self.infoLabel.attributedText = mismatchText;
+			break;
 		}
 	}
 }
 
-- (NSString *)titleForCard:(Card*)card
+- (NSAttributedString *)titleForCard:(Card*)card
 {
-	return card.isChosen ? card.contents : @"";
+	return [[NSAttributedString alloc] initWithString:card.contents];
 }
 
 - (UIImage *)backgroundImageForCard:(Card *)card

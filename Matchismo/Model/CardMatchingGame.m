@@ -31,7 +31,7 @@ static const int MISMATCH_PENALTY = 2;
 	copy.mode = self.mode;
 	copy.cards = [[NSMutableArray alloc] initWithArray:self.cards copyItems:YES];
 	copy.lastStatus = self.lastStatus;
-	copy.lastCards = self.lastCards;
+	copy.lastCards = [[NSMutableArray alloc] initWithArray:self.lastCards copyItems:YES];
 	copy.lastScore = self.lastScore;
 	return copy;
 }

@@ -23,14 +23,61 @@
 }
 
 
-- (NSString *)titleForCard:(Card*)card
+- (NSAttributedString *)titleForCard:(Card*)card
 {
-	if (!card.isChosen || ![card isKindOfClass:[SetCard class]]) {
-		return @"";
+	SetCard *setCard = (SetCard *)card;
+
+	NSInteger number = setCard.number + 1;
+
+	NSString *symbol;
+	switch (setCard.symbol) {
+		case Diamond:
+			symbol = @"▲";
+			break;
+		case Squiggle:
+			symbol = @"●";
+			break;
+		case Oval:
+			symbol = @"■";
+			break;
 	}
 
-	SetCard *setCard = (SetCard *)card;
-	return [NSString stringWithFormat:@"%ld %ld %ld %ld", (long)setCard.number, (long)setCard.symbol, (long)setCard.shading, (long)setCard.color];
+	UIColor *color;
+	switch (setCard.color) {
+		case Red:
+			color = [UIColor redColor];
+			break;
+		case Green:
+			color = [UIColor greenColor];
+			break;
+		case Purple:
+			color = [UIColor purpleColor];
+			break;
+	}
+
+	NSNumber *strokeWidth = @(0);
+	UIColor *strokeColor = color;
+	NSNumber *underline = @(NSUnderlineStyleNone);
+	switch (setCard.shading) {
+		case Solid:
+			// nothing to do here
+			break;
+		case Striped:
+			underline = @(NSUnderlineStyleSingle);
+			break;
+		case Open:
+			strokeWidth = @(-3.0);
+			color = [color colorWithAlphaComponent:0.1];
+			break;
+	}
+
+	NSDictionary *attrs = @{ NSForegroundColorAttributeName : color,
+							 NSStrokeWidthAttributeName: strokeWidth,
+							 NSStrokeColorAttributeName: strokeColor,
+							 NSUnderlineStyleAttributeName: underline,
+							 NSUnderlineColorAttributeName: color };
+
+	return [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld%@", number, symbol] attributes:attrs];
 }
 
 @end
