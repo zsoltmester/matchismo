@@ -12,6 +12,20 @@
 
 static const int SCORE_MATCH = 1;
 
+- (BOOL)isEqual:(id)object
+{
+	if (self == object) {
+		return YES;
+	}
+
+	if (![object isKindOfClass:[SetCard class]]) {
+		return NO;
+	}
+
+	SetCard *other = object;
+	return self.number == other.number && self.symbol == other.symbol && self.shading == other.shading && self.color == other.color;
+}
+
 - (id)copyWithZone:(NSZone *)zone
 {
 	SetCard *copy = [super copyWithZone:zone];

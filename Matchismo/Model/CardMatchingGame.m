@@ -128,4 +128,43 @@ static const int MISMATCH_PENALTY = 2;
 	}
 }
 
+- (BOOL)isEnded
+{
+	NSMutableArray *notMatched = [[NSMutableArray alloc] init];
+	for (Card *card in self.cards) {
+		if (!card.isMatched) {
+			[notMatched addObject:card];
+		}
+	}
+
+	if ([notMatched count] == 0) {
+		return YES;
+	}
+
+	switch (self.mode) {
+		case TwoCards:
+			for (Card *card1 in notMatched) {
+				for (Card *card2 in notMatched) {
+					if (![card1 isEqual:card2] && [card1 match:[NSArray arrayWithObject:card2]]) {
+						return NO;
+					}
+				}
+			}
+			break;
+		case ThreeCards:
+			for (Card *card1 in notMatched) {
+				for (Card *card2 in notMatched) {
+					for (Card *card3 in notMatched) {
+						if (![card1 isEqual:card2] && ![card1 isEqual:card3] && ![card2 isEqual:card3] && [card1 match:[NSArray arrayWithObjects:card2,card3,nil]]) {
+							return NO;
+						}
+					}
+				}
+			}
+			break;
+	}
+
+	return YES;
+}
+
 @end

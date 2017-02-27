@@ -13,6 +13,7 @@
 		E7AD25A61E5F28E900614B34 /* CardMatchingGame.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AD25A51E5F28E900614B34 /* CardMatchingGame.m */; };
 		E7AD25AC1E5F384200614B34 /* SetCardMatchingGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7AD25AB1E5F384200614B34 /* SetCardMatchingGameViewController.m */; };
 		E7E9387A1E606C840089E1D2 /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7E938791E606C840089E1D2 /* HistoryViewController.m */; };
+		E7E9387D1E6087280089E1D2 /* HighScoresViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7E9387C1E6087280089E1D2 /* HighScoresViewController.m */; };
 		E7F95D021E3CC1AE00EB41FB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E7F95D011E3CC1AE00EB41FB /* main.m */; };
 		E7F95D051E3CC1AE00EB41FB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E7F95D041E3CC1AE00EB41FB /* AppDelegate.m */; };
 		E7F95D081E3CC1AE00EB41FB /* CardMatchingGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7F95D071E3CC1AE00EB41FB /* CardMatchingGameViewController.m */; };
@@ -38,6 +39,8 @@
 		E7AD25AB1E5F384200614B34 /* SetCardMatchingGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetCardMatchingGameViewController.m; sourceTree = "<group>"; };
 		E7E938781E606C840089E1D2 /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
 		E7E938791E606C840089E1D2 /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
+		E7E9387B1E6087280089E1D2 /* HighScoresViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighScoresViewController.h; sourceTree = "<group>"; };
+		E7E9387C1E6087280089E1D2 /* HighScoresViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HighScoresViewController.m; sourceTree = "<group>"; };
 		E7F95CFD1E3CC1AE00EB41FB /* Matchismo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Matchismo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7F95D011E3CC1AE00EB41FB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E7F95D031E3CC1AE00EB41FB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -96,6 +99,8 @@
 				E7AD25AB1E5F384200614B34 /* SetCardMatchingGameViewController.m */,
 				E7E938781E606C840089E1D2 /* HistoryViewController.h */,
 				E7E938791E606C840089E1D2 /* HistoryViewController.m */,
+				E7E9387B1E6087280089E1D2 /* HighScoresViewController.h */,
+				E7E9387C1E6087280089E1D2 /* HighScoresViewController.m */,
 				E7F95D091E3CC1AE00EB41FB /* Main.storyboard */,
 				E7F95D0E1E3CC1AE00EB41FB /* LaunchScreen.storyboard */,
 				E7F95D0C1E3CC1AE00EB41FB /* Assets.xcassets */,
@@ -212,6 +217,7 @@
 				E7F95D081E3CC1AE00EB41FB /* CardMatchingGameViewController.m in Sources */,
 				E7F95D051E3CC1AE00EB41FB /* AppDelegate.m in Sources */,
 				E7F95D021E3CC1AE00EB41FB /* main.m in Sources */,
+				E7E9387D1E6087280089E1D2 /* HighScoresViewController.m in Sources */,
 				E7AD25A61E5F28E900614B34 /* CardMatchingGame.m in Sources */,
 				E7AD25A31E5F239C00614B34 /* SetCardDeck.m in Sources */,
 				E7F95D1F1E3CD25300EB41FB /* PlayingCard.m in Sources */,

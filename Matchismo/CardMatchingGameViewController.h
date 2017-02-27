@@ -13,6 +13,11 @@
 // abstract
 @interface CardMatchingGameViewController : UIViewController
 
+extern NSString *const USER_DEFAULTS_HIGH_SCORES;
+extern NSString *const HIGH_SCORES_CATEGORY_SCORE;
+extern NSString *const HIGH_SCORES_CATEGORY_TIME;
+
++ (NSString *)gameName; // abstract
 - (GameMode)gameMode; // abstract
 - (Deck *)createDeck; // abstract
 - (NSAttributedString *)titleForCard:(Card*)card; // abstract

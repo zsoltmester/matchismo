@@ -13,6 +13,20 @@
 static const int SCORE_MATCHING_RANK = 4;
 static const int SCORE_MATCHING_SUIT = 1;
 
+- (BOOL)isEqual:(id)object
+{
+	if (self == object) {
+		return YES;
+	}
+
+	if (![object isKindOfClass:[PlayingCard class]]) {
+		return NO;
+	}
+
+	PlayingCard *other = object;
+	return [self.suit isEqual:other.suit] && self.rank == other.rank;
+}
+
 - (id)copyWithZone:(NSZone *)zone
 {
 	PlayingCard *copy = [super copyWithZone:zone];

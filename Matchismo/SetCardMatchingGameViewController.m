@@ -12,6 +12,11 @@
 
 @implementation SetCardMatchingGameViewController
 
++ (NSString *)gameName
+{
+	return @"SetCardMatchingGame";
+}
+
 - (Deck *)createDeck
 {
 	return [SetCardDeck new];

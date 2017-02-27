@@ -33,5 +33,6 @@ typedef NS_ENUM(NSInteger, GameMode) {
 						usingDeck:(Deck*)deck;
 - (void)chooseCardAtIndex:(NSUInteger)index;
 - (Card *)cardAtIndex:(NSUInteger)index;
+- (BOOL)isEnded;
 
 @end

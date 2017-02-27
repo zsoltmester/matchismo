@@ -23,6 +23,10 @@
 
 @implementation CardMatchingGameViewController
 
+NSString *const USER_DEFAULTS_HIGH_SCORES = @"HighScores";
+NSString *const HIGH_SCORES_CATEGORY_SCORE = @"HighScoresCategoryScore";
+NSString *const HIGH_SCORES_CATEGORY_TIME = @"HighScoresCategoryTime";
+
 - (void)viewDidLoad
 {
 	self.historySlider.continuous = YES;
@@ -54,6 +58,12 @@
 		_game.mode = [self gameMode];
 	}
 	return _game;
+}
+
+
++ (NSString *)gameName // abstract
+{
+	return nil;
 }
 
 - (GameMode)gameMode // abstract
@@ -93,6 +103,41 @@
 	[self.game chooseCardAtIndex:chosenButtonIndex];
 	[self updateUI];
 	[self updateHistory];
+	if ([self.game isEnded]) {
+		[self saveGame];
+	}
+}
+
+- (void)saveGame
+{
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+
+	NSMutableDictionary *highScores = [[userDefaults dictionaryForKey:(NSString *)USER_DEFAULTS_HIGH_SCORES] mutableCopy];
+	if (!highScores) {
+		highScores = [[NSMutableDictionary alloc] init];
+	}
+
+	NSMutableDictionary *gameHighScores = [[highScores objectForKey:[[self class] gameName]] mutableCopy];
+	if(!gameHighScores) {
+		gameHighScores = [[NSMutableDictionary alloc] init];
+		[gameHighScores setObject:[[NSMutableArray alloc] init] forKey:HIGH_SCORES_CATEGORY_SCORE];
+		[gameHighScores setObject:[[NSMutableArray alloc] init] forKey:HIGH_SCORES_CATEGORY_TIME];
+		[highScores setObject:gameHighScores forKey:[[self class] gameName]];
+	}
+
+	NSMutableArray *scoreCategoryHighScores = [[gameHighScores objectForKey:HIGH_SCORES_CATEGORY_SCORE] mutableCopy];
+	[scoreCategoryHighScores addObject:[NSNumber numberWithInteger:self.game.score]];
+	NSSortDescriptor* sortOrder = [NSSortDescriptor sortDescriptorWithKey: @"self" ascending: NO];
+	[scoreCategoryHighScores sortUsingDescriptors:[NSArray arrayWithObject:sortOrder]];
+	if ([scoreCategoryHighScores count] > 10) {
+		[scoreCategoryHighScores removeLastObject];
+	}
+	[gameHighScores setObject:scoreCategoryHighScores forKey:HIGH_SCORES_CATEGORY_SCORE];
+
+	[highScores setObject:gameHighScores forKey:[[self class] gameName]];
+
+	[userDefaults setObject:highScores forKey:(NSString *)USER_DEFAULTS_HIGH_SCORES];
+	[userDefaults synchronize];
 }
 
 - (IBAction)touchNewGameButton:(UIButton *)sender
@@ -151,6 +196,14 @@
 			[self.historyInfos addObject:mismatchText];
 			break;
 		}
+	}
+
+	if ([self.game isEnded]) {
+		for (UIButton *cardButton in self.cardButtons) {
+			cardButton.enabled = NO;
+		}
+		self.infoLabel.attributedText = [[NSAttributedString alloc] initWithString:@"All pairs found. Well played!"];
+		[self.historyInfos addObject:[self.infoLabel.attributedText copy]];
 	}
 }
 

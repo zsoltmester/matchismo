@@ -11,6 +11,11 @@
 
 @implementation PlayingCardMatchingGameViewController
 
++ (NSString *)gameName
+{
+	return @"PlayingCardMatchingGame";
+}
+
 - (Deck *)createDeck
 {
 	return [PlayingCardDeck new];
@@ -20,7 +25,6 @@
 {
 	return TwoCards;
 }
-
 
 - (NSAttributedString *)titleForCard:(Card*)card
 {
