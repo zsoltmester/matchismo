@@ -15,6 +15,9 @@
 @property (nonatomic, readwrite) GameLastStatus lastStatus;
 @property (nonatomic, strong, readwrite) NSArray *lastCards; // of Card
 @property (nonatomic, readwrite) NSInteger lastScore;
+@property (nonatomic, readwrite) BOOL isEnded;
+@property (nonatomic, readwrite) NSTimeInterval gameLasts;
+@property (nonatomic, strong) NSDate *start;
 
 @end
 
@@ -78,6 +81,10 @@ static const int MISMATCH_PENALTY = 2;
 
 - (void)chooseCardAtIndex:(NSUInteger)index
 {
+	if (!self.start) {
+		self.start = [NSDate date];
+	}
+
 	Card *card = [self cardAtIndex:index];
 
 	if (card.isMatched) {
@@ -125,6 +132,10 @@ static const int MISMATCH_PENALTY = 2;
 			otherCard.chosen = NO;
 		}
 		self.lastStatus = MISMATCH;
+	}
+
+	if ([self isEnded]) {
+		self.gameLasts = -[self.start timeIntervalSinceNow];
 	}
 }
 

@@ -134,6 +134,15 @@ NSString *const HIGH_SCORES_CATEGORY_TIME = @"HighScoresCategoryTime";
 	}
 	[gameHighScores setObject:scoreCategoryHighScores forKey:HIGH_SCORES_CATEGORY_SCORE];
 
+	NSMutableArray *timeCategoryHighScores = [[gameHighScores objectForKey:HIGH_SCORES_CATEGORY_TIME] mutableCopy];
+	[timeCategoryHighScores addObject:[NSNumber numberWithDouble:self.game.gameLasts]];
+	sortOrder = [NSSortDescriptor sortDescriptorWithKey: @"self" ascending: YES];
+	[timeCategoryHighScores sortUsingDescriptors:[NSArray arrayWithObject:sortOrder]];
+	if ([timeCategoryHighScores count] > 10) {
+		[timeCategoryHighScores removeLastObject];
+	}
+	[gameHighScores setObject:timeCategoryHighScores forKey:HIGH_SCORES_CATEGORY_TIME];
+
 	[highScores setObject:gameHighScores forKey:[[self class] gameName]];
 
 	[userDefaults setObject:highScores forKey:(NSString *)USER_DEFAULTS_HIGH_SCORES];

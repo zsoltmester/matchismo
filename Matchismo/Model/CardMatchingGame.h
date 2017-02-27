@@ -27,12 +27,13 @@ typedef NS_ENUM(NSInteger, GameMode) {
 @property (nonatomic, readonly) GameLastStatus lastStatus;
 @property (nonatomic, strong, readonly) NSArray *lastCards; // of Card
 @property (nonatomic, readonly) NSInteger lastScore;
+@property (nonatomic, readonly) BOOL isEnded;
+@property (nonatomic, readonly) NSTimeInterval gameLasts;
 
 // designated initializer
 - (instancetype)initWithCardCount:(NSUInteger)count
 						usingDeck:(Deck*)deck;
 - (void)chooseCardAtIndex:(NSUInteger)index;
 - (Card *)cardAtIndex:(NSUInteger)index;
-- (BOOL)isEnded;
 
 @end

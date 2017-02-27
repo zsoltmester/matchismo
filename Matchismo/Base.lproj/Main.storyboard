@@ -972,8 +972,8 @@
                                 <rect key="frame" x="77" y="93" width="261" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
-                                    <segment title="Set Card Game"/>
                                     <segment title="Playing Card Game"/>
+                                    <segment title="Set Card Game"/>
                                 </segments>
                                 <connections>
                                     <action selector="onGameValueChanged:" destination="iSN-7b-LyV" eventType="valueChanged" id="FIk-BC-fYX"/>

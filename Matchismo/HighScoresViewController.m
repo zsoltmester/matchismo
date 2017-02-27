@@ -16,10 +16,22 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *categorySegmentedControl;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *gameSegmentedControl;
 @property (weak, nonatomic) IBOutlet UITextView *listTextView;
+@property (strong, nonatomic) NSNumberFormatter *formatter;
 
 @end
 
 @implementation HighScoresViewController
+
+- (NSNumberFormatter *)formatter
+{
+	if (!_formatter) {
+		_formatter = [NSNumberFormatter new];
+		[_formatter setMaximumFractionDigits:2];
+		[_formatter setRoundingMode:NSNumberFormatterRoundDown];
+	}
+
+	return _formatter;
+}
 
 - (void)updateUI
 {
@@ -55,15 +67,19 @@
 			category = HIGH_SCORES_CATEGORY_TIME;
 			break;
 	}
-	NSArray *scoreCategoryHighScores = [gameHighScores objectForKey:category];
-	if (!scoreCategoryHighScores || [scoreCategoryHighScores count] == 0) {
+	NSArray *categoryHighScores = [gameHighScores objectForKey:category];
+	if (!categoryHighScores || [categoryHighScores count] == 0) {
 		self.listTextView.text = @"No data for the selected types.";
 		return;
 	}
 
 	NSMutableString *list = [NSMutableString string];
-	for (int i = 0; i < [scoreCategoryHighScores count]; ++i) {
-		[list appendString:[NSString stringWithFormat:@"%d. %@\n", i + 1, [scoreCategoryHighScores[i] stringValue]]];
+	for (int i = 0; i < [categoryHighScores count]; ++i) {
+		if (category == HIGH_SCORES_CATEGORY_SCORE) {
+			[list appendString:[NSString stringWithFormat:@"%d. %@\n", i + 1, categoryHighScores[i]]];
+		} else {
+			[list appendString:[NSString stringWithFormat:@"%d. %@ sec\n", i + 1, [self.formatter stringFromNumber:categoryHighScores[i]]]];
+		}
 	}
 
 	self.listTextView.text = list;
