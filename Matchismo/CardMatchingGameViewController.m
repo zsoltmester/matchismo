@@ -114,36 +114,36 @@ NSString *const HIGH_SCORES_CATEGORY_TIME = @"HighScoresCategoryTime";
 
 	NSMutableDictionary *highScores = [[userDefaults dictionaryForKey:(NSString *)USER_DEFAULTS_HIGH_SCORES] mutableCopy];
 	if (!highScores) {
-		highScores = [[NSMutableDictionary alloc] init];
+		highScores = [[NSMutableDictionary alloc] initWithCapacity:2];
 	}
 
 	NSMutableDictionary *gameHighScores = [[highScores objectForKey:[[self class] gameName]] mutableCopy];
 	if(!gameHighScores) {
-		gameHighScores = [[NSMutableDictionary alloc] init];
-		[gameHighScores setObject:[[NSMutableArray alloc] init] forKey:HIGH_SCORES_CATEGORY_SCORE];
-		[gameHighScores setObject:[[NSMutableArray alloc] init] forKey:HIGH_SCORES_CATEGORY_TIME];
-		[highScores setObject:gameHighScores forKey:[[self class] gameName]];
+		gameHighScores = [[NSMutableDictionary alloc] initWithCapacity:2];
+		gameHighScores[HIGH_SCORES_CATEGORY_SCORE] = [[NSMutableArray alloc] initWithCapacity:1];
+		gameHighScores[HIGH_SCORES_CATEGORY_TIME] = [[NSMutableArray alloc] initWithCapacity:1];
+		highScores[[[self class] gameName]] = gameHighScores;
 	}
 
-	NSMutableArray *scoreCategoryHighScores = [[gameHighScores objectForKey:HIGH_SCORES_CATEGORY_SCORE] mutableCopy];
+	NSMutableArray *scoreCategoryHighScores = [gameHighScores[HIGH_SCORES_CATEGORY_SCORE] mutableCopy];
 	[scoreCategoryHighScores addObject:[NSNumber numberWithInteger:self.game.score]];
 	NSSortDescriptor* sortOrder = [NSSortDescriptor sortDescriptorWithKey: @"self" ascending: NO];
 	[scoreCategoryHighScores sortUsingDescriptors:[NSArray arrayWithObject:sortOrder]];
 	if ([scoreCategoryHighScores count] > 10) {
 		[scoreCategoryHighScores removeLastObject];
 	}
-	[gameHighScores setObject:scoreCategoryHighScores forKey:HIGH_SCORES_CATEGORY_SCORE];
+	gameHighScores[HIGH_SCORES_CATEGORY_SCORE] = scoreCategoryHighScores;
 
-	NSMutableArray *timeCategoryHighScores = [[gameHighScores objectForKey:HIGH_SCORES_CATEGORY_TIME] mutableCopy];
+	NSMutableArray *timeCategoryHighScores = [gameHighScores[HIGH_SCORES_CATEGORY_TIME] mutableCopy];
 	[timeCategoryHighScores addObject:[NSNumber numberWithDouble:self.game.gameLasts]];
 	sortOrder = [NSSortDescriptor sortDescriptorWithKey: @"self" ascending: YES];
 	[timeCategoryHighScores sortUsingDescriptors:[NSArray arrayWithObject:sortOrder]];
 	if ([timeCategoryHighScores count] > 10) {
 		[timeCategoryHighScores removeLastObject];
 	}
-	[gameHighScores setObject:timeCategoryHighScores forKey:HIGH_SCORES_CATEGORY_TIME];
+	gameHighScores[HIGH_SCORES_CATEGORY_TIME] = timeCategoryHighScores;
 
-	[highScores setObject:gameHighScores forKey:[[self class] gameName]];
+	highScores[[[self class] gameName]] = gameHighScores;
 
 	[userDefaults setObject:highScores forKey:(NSString *)USER_DEFAULTS_HIGH_SCORES];
 	[userDefaults synchronize];
