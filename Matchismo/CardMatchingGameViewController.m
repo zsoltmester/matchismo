@@ -8,14 +8,18 @@
 
 #import "CardMatchingGameViewController.h"
 #import "HistoryViewController.h"
+#import "Grid.h"
 
 @interface CardMatchingGameViewController ()
 
-@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
+@property (strong, nonatomic) CardMatchingGame *game;
+@property (weak, nonatomic) IBOutlet UIView *cardContainerView;
+@property (strong, nonatomic) Grid* grid;
+@property (strong, nonatomic) NSMutableArray *cards; // of CardView
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (weak, nonatomic) IBOutlet UILabel *infoLabel;
+@property (nonatomic) BOOL inHistory;
 @property (weak, nonatomic) IBOutlet UISlider *historySlider;
-@property (strong, nonatomic) CardMatchingGame *game;
 @property (strong, nonatomic) NSMutableArray *history; // of CardMatchingGame
 @property (strong, nonatomic) NSMutableArray *historyInfos; // of NSAttributedString
 
@@ -27,17 +31,48 @@ NSString *const USER_DEFAULTS_HIGH_SCORES = @"HighScores";
 NSString *const HIGH_SCORES_CATEGORY_SCORE = @"HighScoresCategoryScore";
 NSString *const HIGH_SCORES_CATEGORY_TIME = @"HighScoresCategoryTime";
 
-- (void)viewDidLoad
+static const CGFloat CELL_ASPECT_RATIO = 0.66;
+
+- (void)setup
 {
 	self.game = [self createGame];
 	self.game.mode = [self gameMode];
 
+	self.inHistory = NO;
 	self.history = [NSMutableArray new];
 	self.historyInfos = [NSMutableArray new];
 	self.historySlider.continuous = YES;
 	self.historySlider.minimumValue = 0;
-	[self updateHistory];
+	[self addStateToHistory];
 	self.historySlider.enabled = NO;
+
+	self.grid = [Grid new];
+	self.grid.size = self.cardContainerView.bounds.size;
+	self.grid.cellAspectRatio = CELL_ASPECT_RATIO;
+	self.grid.minimumNumberOfCells = [self numberOfCards];
+
+	self.cards = [NSMutableArray new];
+	for (int row = 0; row < self.grid.rowCount; ++row) {
+		for (int column = 0; column < self.grid.columnCount; ++column) {
+			CardView *cardView = [self createCardViewWithFrame:[self.grid frameOfCellAtRow:row inColumn:column] forCard:[self.game cardAtIndex:(column + row * self.grid.columnCount)]];
+			UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchCardView:)];
+			[cardView addGestureRecognizer:tapGestureRecognizer];
+			[self.cards addObject:cardView];
+			[self.cardContainerView addSubview:cardView];
+		}
+	}
+
+	self.infoLabel.text = @"Click on a card to start the game";
+}
+
+- (void)viewDidLoad
+{
+	[self setup];
+}
+
+- (IBAction)touchNewGameButton:(UIButton *)sender
+{
+	[self setup];
 }
 
 + (NSString *)gameName // abstract
@@ -55,33 +90,65 @@ NSString *const HIGH_SCORES_CATEGORY_TIME = @"HighScoresCategoryTime";
 	return nil;
 }
 
+- (NSUInteger)numberOfCards; // abstract
+{
+	return 0;
+}
+
+- (CardView *)createCardViewWithFrame:(CGRect)frame forCard:(Card *)card; // abstract
+{
+	return nil;
+}
+
+- (NSAttributedString *)titleForCard:(Card*)card // abstract
+{
+	return nil;
+}
+
 - (CardMatchingGame *)createGame
 {
-	return [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
+	return [[CardMatchingGame alloc] initWithCardCount:[self numberOfCards]
 											 usingDeck:[self createDeck]];
 }
 
-- (void)updateHistory
+- (void)addStateToHistory
 {
 	[self.history addObject:[self.game copy]];
-	self.historySlider.enabled = YES;
 	self.historySlider.maximumValue = [self.history count] - 1;
 	if (self.historySlider.maximumValue == 0) {
 		self.historySlider.maximumValue = 1;
+	} else {
+		self.historySlider.enabled = YES;
 	}
 	self.historySlider.value = self.historySlider.maximumValue;
+
+	if (self.game.lastStatus == MATCH || self.game.lastStatus == MISMATCH)
+	[self.historyInfos addObject:[self.infoLabel.attributedText copy]];
 }
 
-- (IBAction)touchCardButton:(UIButton *)sender
+
+- (IBAction)historySliderChanged:(UISlider *)sender
 {
-	if (self.historySlider.value != self.historySlider.maximumValue) {
+	NSUInteger index = (NSUInteger)(sender.value + 0.5);
+	[sender setValue:index animated:NO];
+	self.game = self.history[index];
+	self.inHistory = index != sender.maximumValue;
+	[self updateUI];
+}
+
+- (void)touchCardView:(UITapGestureRecognizer *)gestureRecognizer
+{
+	if (self.inHistory || !((CardView *)gestureRecognizer.view).enabled) {
 		return;
 	}
 
-	NSUInteger chosenButtonIndex = [self.cardButtons indexOfObject:sender];
-	[self.game chooseCardAtIndex:chosenButtonIndex];
+	NSUInteger chosenCardViewIndex = [self.cards indexOfObject:gestureRecognizer.view];
+	[self.game chooseCardAtIndex:chosenCardViewIndex];
+
 	[self updateUI];
-	[self updateHistory];
+
+	[self addStateToHistory];
+
 	if ([self.game isEnded]) {
 		[self saveGame];
 	}
@@ -128,34 +195,13 @@ NSString *const HIGH_SCORES_CATEGORY_TIME = @"HighScoresCategoryTime";
 	[userDefaults synchronize];
 }
 
-- (IBAction)touchNewGameButton:(UIButton *)sender
-{
-	_game = [self createGame];
-	[self updateUI];
-	self.infoLabel.text = @"Click on a card to start the game";
-
-	[self.history removeAllObjects];
-	[self updateHistory];
-	self.historySlider.enabled = NO;
-}
-
-- (IBAction)historySliderChanged:(UISlider *)sender
-{
-	NSUInteger index = (NSUInteger)(sender.value + 0.5);
-	[sender setValue:index animated:NO];
-	self.game = self.history[index];
-	[self updateUI];
-}
-
 - (void)updateUI
 {
-	for (UIButton *cardButton in self.cardButtons) {
-		NSUInteger cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
-		Card *card = [self.game cardAtIndex:cardButtonIndex];
-		NSAttributedString *title = card.isChosen ? [self titleForCard:card] : [[NSAttributedString alloc] initWithString:@""];
-		[cardButton setAttributedTitle:title forState:UIControlStateNormal];
-		[cardButton setBackgroundImage:[self backgroundImageForCard:card] forState:UIControlStateNormal];
-		cardButton.enabled = !card.isMatched;
+	for (CardView *cardView in self.cards) {
+		NSUInteger cardViewIndex = [self.cards indexOfObject:cardView];
+		Card *card = [self.game cardAtIndex:cardViewIndex];
+		cardView.faceUp = card.isChosen;
+		cardView.enabled = !card.isMatched;
 	}
 
 	self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", (long)self.game.score];
@@ -174,35 +220,22 @@ NSString *const HIGH_SCORES_CATEGORY_TIME = @"HighScoresCategoryTime";
 			[matchText appendAttributedString:lastCards];
 			[matchText appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" for %ld points.", (long)self.game.lastScore]]];
 			self.infoLabel.attributedText = matchText;
-			[self.historyInfos addObject:matchText];
 			break;
 		}
 		case MISMATCH: {
 			NSMutableAttributedString *mismatchText = [[NSMutableAttributedString alloc] initWithAttributedString:lastCards];
 			[mismatchText appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" don't match! %ld points penalty.", (long)self.game.lastScore]]];
 			self.infoLabel.attributedText = mismatchText;
-			[self.historyInfos addObject:mismatchText];
 			break;
 		}
 	}
 
 	if ([self.game isEnded]) {
-		for (UIButton *cardButton in self.cardButtons) {
-			cardButton.enabled = NO;
+		for (CardView *cardView in self.cards) {
+			cardView.enabled = NO;
 		}
 		self.infoLabel.attributedText = [[NSAttributedString alloc] initWithString:@"All pairs found. Well played!"];
-		[self.historyInfos addObject:[self.infoLabel.attributedText copy]];
 	}
-}
-
-- (NSAttributedString *)titleForCard:(Card*)card // abstract
-{
-	return nil;
-}
-
-- (UIImage *)backgroundImageForCard:(Card *)card
-{
-	return [UIImage imageNamed:card.isChosen ? @"cardfront" : @"cardback"];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
