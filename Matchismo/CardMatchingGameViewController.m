@@ -62,6 +62,8 @@ static const CGFloat CELL_ASPECT_RATIO = 0.66;
 		}
 	}
 
+	[self updateUI];
+
 	self.infoLabel.text = @"Click on a card to start the game";
 }
 
