@@ -27,32 +27,13 @@ static const int COST_TO_CHOOSE = 1;
 static const int MATCH_BONUS = 4;
 static const int MISMATCH_PENALTY = 2;
 
--(id)copyWithZone:(NSZone *)zone
-{
-	CardMatchingGame *copy = [[self class] new];
-	copy.score = self.score;
-	copy.mode = self.mode;
-	copy.cards = [[NSMutableArray alloc] initWithArray:self.cards copyItems:YES];
-	copy.lastStatus = self.lastStatus;
-	copy.lastCards = [[NSMutableArray alloc] initWithArray:self.lastCards copyItems:YES];
-	copy.lastScore = self.lastScore;
-	return copy;
-}
-
-- (NSMutableArray *)cards
-{
-	if (!_cards) {
-		_cards = [NSMutableArray new];
-	}
-	return _cards;
-}
-
 - (instancetype)initWithCardCount:(NSUInteger)count
 						usingDeck:(Deck *)deck
 {
 	self = [super init];
 
 	if (self) {
+		self.cards = [NSMutableArray new];
 		for (int i = 0; i < count; ++i) {
 			Card *card = [deck drawRandomCard];
 			if (card) {
@@ -66,6 +47,18 @@ static const int MISMATCH_PENALTY = 2;
 	}
 
 	return self;
+}
+
+-(id)copyWithZone:(NSZone *)zone
+{
+	CardMatchingGame *copy = [[self class] new];
+	copy.score = self.score;
+	copy.mode = self.mode;
+	copy.cards = [[NSMutableArray alloc] initWithArray:self.cards copyItems:YES];
+	copy.lastStatus = self.lastStatus;
+	copy.lastCards = [[NSMutableArray alloc] initWithArray:self.lastCards copyItems:YES];
+	copy.lastScore = self.lastScore;
+	return copy;
 }
 
 - (NSArray *)getChosenCards

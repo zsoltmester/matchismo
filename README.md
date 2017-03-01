@@ -7,3 +7,4 @@ iOS app made at the Stanford's iOS Application Development course. It's a card g
 ## Improvements
 
 - Remove lazy intializations.
+- Use self.propertyName access for properties, instead of \_propertyName.

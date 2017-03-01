@@ -16,12 +16,15 @@
 
 @implementation Deck
 
-- (NSMutableArray *)cards
+- (instancetype)init
 {
-	if(!_cards) {
-		_cards = [NSMutableArray new];
+	self = [super init];
+
+	if (self) {
+		self.cards = [NSMutableArray new];
 	}
-	return _cards;
+
+	return self;
 }
 
 - (void)addCard:(Card *)card atTop:(BOOL)atTop

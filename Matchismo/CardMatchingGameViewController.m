@@ -29,37 +29,16 @@ NSString *const HIGH_SCORES_CATEGORY_TIME = @"HighScoresCategoryTime";
 
 - (void)viewDidLoad
 {
+	self.game = [self createGame];
+	self.game.mode = [self gameMode];
+
+	self.history = [NSMutableArray new];
+	self.historyInfos = [NSMutableArray new];
 	self.historySlider.continuous = YES;
 	self.historySlider.minimumValue = 0;
 	[self updateHistory];
 	self.historySlider.enabled = NO;
 }
-
-- (NSMutableArray *)history
-{
-	if (!_history) {
-		_history = [[NSMutableArray alloc] init];
-	}
-	return _history;
-}
-
-- (NSMutableArray *)historyInfos
-{
-	if (!_historyInfos) {
-		_historyInfos = [[NSMutableArray alloc] init];
-	}
-	return _historyInfos;
-}
-
-- (CardMatchingGame *)game
-{
-	if (!_game) {
-		_game = [self createGame];
-		_game.mode = [self gameMode];
-	}
-	return _game;
-}
-
 
 + (NSString *)gameName // abstract
 {

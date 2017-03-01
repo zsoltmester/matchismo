@@ -22,15 +22,11 @@
 
 @implementation HighScoresViewController
 
-- (NSNumberFormatter *)formatter
+- (void)viewDidLoad
 {
-	if (!_formatter) {
-		_formatter = [NSNumberFormatter new];
-		[_formatter setMaximumFractionDigits:2];
-		[_formatter setRoundingMode:NSNumberFormatterRoundDown];
-	}
-
-	return _formatter;
+	self.formatter = [NSNumberFormatter new];
+	[self.formatter setMaximumFractionDigits:2];
+	[self.formatter setRoundingMode:NSNumberFormatterRoundDown];
 }
 
 - (void)updateUI

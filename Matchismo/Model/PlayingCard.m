@@ -39,7 +39,6 @@ static const int SCORE_MATCHING_SUIT = 1;
 {
 	NSMutableArray *allCards = [[NSMutableArray alloc] initWithArray:otherCards];
 	[allCards addObject:self];
-
 	return [PlayingCard match:allCards];
 }
 
@@ -72,11 +71,16 @@ static const int SCORE_MATCHING_SUIT = 1;
 	return [rankStrings[self.rank] stringByAppendingString:self.suit];
 }
 
-@synthesize suit = _suit;
-
 + (NSArray *)validSuits
 {
 	return @[@"♠︎",@"♣︎",@"♥︎",@"♦︎"];
+}
+
+@synthesize suit = _suit;
+
+- (NSString *)suit
+{
+	return _suit ? _suit : @"?";
 }
 
 - (void)setSuit:(NSString *)suit
@@ -84,11 +88,6 @@ static const int SCORE_MATCHING_SUIT = 1;
 	if ([[PlayingCard validSuits] containsObject:suit]) {
 		_suit = suit;
 	}
-}
-
-- (NSString *)suit
-{
-	return _suit ? _suit : @"?";
 }
 
 + (NSArray *)rankStrings
