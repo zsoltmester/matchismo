@@ -11,27 +11,27 @@
 @interface SetCard : Card
 
 typedef NS_ENUM(NSInteger, SetCardNumber) {
-	One,
-	Two,
-	Three
+	SetCardNumberOne,
+	SetCardNumberTwo,
+	SetCardNumberThree
 };
 
 typedef NS_ENUM(NSInteger, SetCardSymbol) {
-	Diamond,
-	Squiggle,
-	Oval
+	SetCardSymbolDiamond,
+	SetCardSymbolSquiggle,
+	SetCardSymbolOval
 };
 
 typedef NS_ENUM(NSInteger, SetCardShading) {
-	Solid,
-	Striped,
-	Open
+	SetCardShadingSolid,
+	SetCardShadingStriped,
+	SetCardShadingOpen
 };
 
 typedef NS_ENUM(NSInteger, SetCardColor) {
-	Red,
-	Green,
-	Purple
+	SetCardColorRed,
+	SetCardColorGreen,
+	SetCardColorPurple
 };
 
 @property (nonatomic) SetCardNumber number;

@@ -10,13 +10,6 @@
 #import "PlayingCardDeck.h"
 #import "PlayingCardView.h"
 #import "PlayingCard.h"
-#import "Grid.h"
-
-@interface PlayingCardMatchingGameViewController()
-
-@property (nonatomic, strong) Grid* grid;
-
-@end
 
 @implementation PlayingCardMatchingGameViewController
 
@@ -46,7 +39,7 @@
 	return [[NSAttributedString alloc] initWithString:card.contents attributes:attrs];
 }
 
-- (CardView *)createCardViewWithFrame:(CGRect)frame forCard:(Card *)card; // abstract
+- (CardView *)createCardViewWithFrame:(CGRect)frame forCard:(Card *)card
 {
 	PlayingCardView *cardView = [[PlayingCardView alloc] initWithFrame:frame];
 	cardView.rank = ((PlayingCard *)card).rank;

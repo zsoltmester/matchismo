@@ -13,4 +13,9 @@
 @property (nonatomic) BOOL enabled;
 @property (nonatomic) BOOL faceUp;
 
+- (CGFloat)cornerScaleFactor;
+- (CGFloat)cornerRadius;
+
+- (void)drawCardFaceForRect:(CGRect)rect; // abstract
+
 @end

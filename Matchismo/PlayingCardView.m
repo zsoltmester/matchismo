@@ -8,10 +8,6 @@
 
 #import "PlayingCardView.h"
 
-@interface PlayingCardView()
-
-@end
-
 @implementation PlayingCardView
 
 #pragma mark - Properties
@@ -48,81 +44,23 @@
 	}
 }
 
-#pragma mark - Initialization
-
-- (void)setup
-{
-	self.backgroundColor = nil;
-	self.opaque = NO;
-	self.contentMode = UIViewContentModeRedraw;
-}
-
-- (void)awakeFromNib
-{
-	[super awakeFromNib];
-	[self setup];
-}
-
-- (id)initWithFrame:(CGRect)frame
-{
-	self = [super initWithFrame:frame];
-	if (self) {
-		[self setup];
-	}
-	return self;
-}
-
 #pragma mark - Drawing
 
 #define CORNER_FONT_STANDARD_HEIGHT 180.0
 #define CORNER_RADIUS 12.0
 
-- (CGFloat)cornerScaleFactor
+- (void)drawCardFaceForRect:(CGRect)rect
 {
-	return self.bounds.size.height / CORNER_FONT_STANDARD_HEIGHT;
-}
-
-- (CGFloat)cornerRadius
-{
-	return CORNER_RADIUS * [self cornerScaleFactor];
-}
-
-- (CGFloat)cornerOffset
-{
-	return [self cornerRadius] / 3.0;
-}
-
-- (void)drawRect:(CGRect)rect
-{
-	UIBezierPath *roundedRect = [UIBezierPath bezierPathWithRoundedRect:self.bounds cornerRadius:[self cornerRadius]];
-
-	[roundedRect addClip];
-
-	[[UIColor whiteColor] setFill];
-	[roundedRect fill];
-
-	[[UIColor blackColor] setStroke];
-	[roundedRect stroke];
-
-	if (self.faceUp) {
-		UIImage *faceImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@-%@", [self rankAsString], [self suitAsString]]];
-		if (faceImage) {
-			CGRect imageRect = CGRectInset(self.bounds,
-										   self.bounds.size.width * (0.1),
-										   self.bounds.size.height * (0.1));
-			[faceImage drawInRect:imageRect];
-		} else {
-			[self drawPips];
-		}
-		[self drawCorners];
+	UIImage *faceImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@-%@", [self rankAsString], [self suitAsString]]];
+	if (faceImage) {
+		CGRect imageRect = CGRectInset(self.bounds,
+									   self.bounds.size.width * (0.1),
+									   self.bounds.size.height * (0.1));
+		[faceImage drawInRect:imageRect];
 	} else {
-		[[UIImage imageNamed:@"cardback"] drawInRect:self.bounds];
+		[self drawPips];
 	}
-
-	if (!self.enabled) {
-		[[[UIColor blackColor] colorWithAlphaComponent:0.2] setFill];
-		[roundedRect fill];
-	}
+	[self drawCorners];
 }
 
 - (void)pushContextAndRotateUpsideDown
@@ -139,6 +77,11 @@
 }
 
 #pragma mark - Corners
+
+- (CGFloat)cornerOffset
+{
+	return [self cornerRadius] / 3.0;
+}
 
 - (void)drawCorners
 {

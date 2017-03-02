@@ -7,6 +7,7 @@
 //
 
 #import "SetCardMatchingGameViewController.h"
+#import "SetCardView.h"
 #import "SetCardDeck.h"
 #import "SetCard.h"
 
@@ -27,6 +28,10 @@
 	return ThreeCards;
 }
 
+- (NSUInteger)numberOfCards;
+{
+	return 30;
+}
 
 - (NSAttributedString *)titleForCard:(Card*)card
 {
@@ -36,53 +41,103 @@
 
 	NSString *symbol;
 	switch (setCard.symbol) {
-		case Diamond:
+		case SetCardSymbolDiamond:
 			symbol = @"▲";
 			break;
-		case Squiggle:
+		case SetCardSymbolOval:
 			symbol = @"●";
 			break;
-		case Oval:
+		case SetCardSymbolSquiggle:
 			symbol = @"■";
 			break;
 	}
 
 	UIColor *color;
 	switch (setCard.color) {
-		case Red:
+		case SetCardColorRed:
 			color = [UIColor redColor];
 			break;
-		case Green:
+		case SetCardColorGreen:
 			color = [UIColor greenColor];
 			break;
-		case Purple:
+		case SetCardColorPurple:
 			color = [UIColor purpleColor];
 			break;
 	}
 
 	NSNumber *strokeWidth = @(0);
 	UIColor *strokeColor = color;
-	NSNumber *underline = @(NSUnderlineStyleNone);
 	switch (setCard.shading) {
-		case Solid:
+		case SetCardShadingSolid:
 			// nothing to do here
 			break;
-		case Striped:
-			underline = @(NSUnderlineStyleSingle);
+		case SetCardShadingStriped:
+			color = [color colorWithAlphaComponent:0.25];
 			break;
-		case Open:
+		case SetCardShadingOpen:
 			strokeWidth = @(-3.0);
-			color = [color colorWithAlphaComponent:0.1];
+			color = [UIColor clearColor];
 			break;
 	}
 
 	NSDictionary *attrs = @{ NSForegroundColorAttributeName : color,
 							 NSStrokeWidthAttributeName: strokeWidth,
 							 NSStrokeColorAttributeName: strokeColor,
-							 NSUnderlineStyleAttributeName: underline,
 							 NSUnderlineColorAttributeName: color };
 
 	return [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld%@", number, symbol] attributes:attrs];
+}
+
+- (CardView *)createCardViewWithFrame:(CGRect)frame forCard:(Card *)card
+{
+	SetCardView *cardView = [[SetCardView alloc] initWithFrame:frame];
+	switch (((SetCard *)card).number) {
+		case SetCardNumberOne:
+			cardView.number = 1;
+			break;
+		case SetCardNumberTwo:
+			cardView.number = 2;
+			break;
+		case SetCardNumberThree:
+			cardView.number = 3;
+			break;
+	}
+	switch (((SetCard *)card).color) {
+		case SetCardColorGreen:
+			cardView.color = [UIColor greenColor];
+			break;
+		case SetCardColorRed:
+			cardView.color = [UIColor redColor];
+			break;
+		case SetCardColorPurple:
+			cardView.color = [UIColor purpleColor];
+			break;
+	}
+	switch (((SetCard *)card).symbol) {
+		case SetCardSymbolDiamond:
+			cardView.symbol = SetCardViewSymbolDiamond;
+			break;
+		case SetCardSymbolOval:
+			cardView.symbol = SetCardViewSymbolOval;
+			break;
+		case SetCardSymbolSquiggle:
+			cardView.symbol = SetCardViewSymbolSquiggle;
+			break;
+	}
+	switch (((SetCard *)card).shading) {
+		case SetCardShadingOpen:
+			cardView.shading = SetCardViewShadingOpen;
+			break;
+		case SetCardShadingStriped:
+			cardView.shading = SetCardViewShadingStriped;
+			break;
+		case SetCardShadingSolid:
+			cardView.shading = SetCardViewShadingSolid;
+			break;
+	}
+	cardView.faceUp = YES;
+	cardView.enabled = YES;
+	return cardView;
 }
 
 @end
