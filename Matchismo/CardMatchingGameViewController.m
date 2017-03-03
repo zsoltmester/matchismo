@@ -164,7 +164,6 @@ static const CGFloat CELL_ASPECT_RATIO = 0.66;
 		[self.historyInfos addObject:[self.infoLabel.attributedText copy]];
 }
 
-
 - (IBAction)historySliderChanged:(UISlider *)sender
 {
 	NSUInteger index = (NSUInteger)(sender.value + 0.5);
