@@ -51,6 +51,8 @@ static const CGFloat CELL_ASPECT_RATIO = 0.66;
 	self.grid.cellAspectRatio = CELL_ASPECT_RATIO;
 	self.grid.minimumNumberOfCells = [self numberOfCards];
 
+	[[self.cardContainerView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
 	self.cards = [NSMutableArray new];
 	for (int row = 0; row < self.grid.rowCount; ++row) {
 		for (int column = 0; column < self.grid.columnCount; ++column) {
@@ -59,6 +61,12 @@ static const CGFloat CELL_ASPECT_RATIO = 0.66;
 			[cardView addGestureRecognizer:tapGestureRecognizer];
 			[self.cards addObject:cardView];
 			[self.cardContainerView addSubview:cardView];
+			cardView.alpha = 0;
+			[UIView animateWithDuration:0.5
+							 animations:^{
+								 cardView.alpha = 1;
+							 }
+							 completion:nil];
 		}
 	}
 
@@ -74,7 +82,20 @@ static const CGFloat CELL_ASPECT_RATIO = 0.66;
 
 - (IBAction)touchNewGameButton:(UIButton *)sender
 {
-	[self setup];
+	[UIView animateWithDuration:0.5
+					 animations:^{
+						 for (CardView *cardView in self.cards) {
+							 cardView.alpha = 0;
+						 }
+					 }
+					 completion: ^(BOOL finished) {
+						 for (CardView *cardView in self.cards) {
+							 cardView.hidden = finished;
+						 }
+						 if (finished) {
+							 [self setup];
+						 }
+					 }];
 }
 
 + (NSString *)gameName // abstract
@@ -125,7 +146,7 @@ static const CGFloat CELL_ASPECT_RATIO = 0.66;
 	self.historySlider.value = self.historySlider.maximumValue;
 
 	if (self.game.lastStatus == MATCH || self.game.lastStatus == MISMATCH)
-	[self.historyInfos addObject:[self.infoLabel.attributedText copy]];
+		[self.historyInfos addObject:[self.infoLabel.attributedText copy]];
 }
 
 
@@ -146,6 +167,12 @@ static const CGFloat CELL_ASPECT_RATIO = 0.66;
 
 	NSUInteger chosenCardViewIndex = [self.cards indexOfObject:gestureRecognizer.view];
 	[self.game chooseCardAtIndex:chosenCardViewIndex];
+
+	[UIView transitionWithView:gestureRecognizer.view
+					  duration:0.5
+					   options:UIViewAnimationOptionTransitionFlipFromLeft
+					animations:nil
+					completion:nil];
 
 	[self updateUI];
 
