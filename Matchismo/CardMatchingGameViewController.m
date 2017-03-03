@@ -46,6 +46,15 @@ static const CGFloat CELL_ASPECT_RATIO = 0.66;
 	[self addStateToHistory];
 	self.historySlider.enabled = NO;
 
+	[self setupCardViews];
+
+	[self updateUI];
+
+	self.infoLabel.text = @"Click on a card to start the game";
+}
+
+- (void)setupCardViews
+{
 	self.grid = [Grid new];
 	self.grid.size = self.cardContainerView.bounds.size;
 	self.grid.cellAspectRatio = CELL_ASPECT_RATIO;
@@ -64,15 +73,13 @@ static const CGFloat CELL_ASPECT_RATIO = 0.66;
 			cardView.alpha = 0;
 			[UIView animateWithDuration:0.5
 							 animations:^{
-								 cardView.alpha = 1;
+								 for (CardView *cardView in self.cards) {
+									 cardView.alpha = 1;
+								 }
 							 }
 							 completion:nil];
 		}
 	}
-
-	[self updateUI];
-
-	self.infoLabel.text = @"Click on a card to start the game";
 }
 
 - (void)viewDidLoad
@@ -89,13 +96,21 @@ static const CGFloat CELL_ASPECT_RATIO = 0.66;
 						 }
 					 }
 					 completion: ^(BOOL finished) {
-						 for (CardView *cardView in self.cards) {
-							 cardView.hidden = finished;
-						 }
 						 if (finished) {
 							 [self setup];
 						 }
 					 }];
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+	[super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+
+	[coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+		[self setupCardViews];
+		[self updateUI];
+	}
+								 completion:nil];
 }
 
 + (NSString *)gameName // abstract

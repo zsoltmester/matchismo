@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,42 +22,55 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Anx-5F-RMu">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Anx-5F-RMu">
                                 <rect key="frame" x="20" y="649" width="374" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="New Game"/>
                                 <connections>
                                     <action selector="touchNewGameButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="x7v-Ea-ile"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p9N-k6-RgQ">
-                                <rect key="frame" x="20" y="620" width="358" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p9N-k6-RgQ">
+                                <rect key="frame" x="20" y="620" width="374" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="so6-yk-SS2">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="so6-yk-SS2">
                                 <rect key="frame" x="18" y="72" width="378" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="historySliderChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="KKN-tQ-XIV"/>
                                 </connections>
                             </slider>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Click on a card to start the game" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ITK-n1-w1f">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click on a card to start the game" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ITK-n1-w1f">
                                 <rect key="frame" x="20" y="591" width="374" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yQG-KX-1Ry">
+                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yQG-KX-1Ry">
                                 <rect key="frame" x="20" y="110" width="374" height="473"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Anx-5F-RMu" secondAttribute="bottom" constant="8" symbolic="YES" id="3ZB-zP-tsD"/>
+                            <constraint firstItem="so6-yk-SS2" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="44M-qg-xyy"/>
+                            <constraint firstItem="so6-yk-SS2" firstAttribute="trailing" secondItem="yQG-KX-1Ry" secondAttribute="trailing" id="7sb-KV-mm4"/>
+                            <constraint firstItem="so6-yk-SS2" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="D8y-HB-Kzk"/>
+                            <constraint firstItem="ITK-n1-w1f" firstAttribute="leading" secondItem="p9N-k6-RgQ" secondAttribute="leading" id="EYp-FW-o8s"/>
+                            <constraint firstItem="p9N-k6-RgQ" firstAttribute="top" secondItem="ITK-n1-w1f" secondAttribute="bottom" constant="8" symbolic="YES" id="OU1-IM-3To"/>
+                            <constraint firstItem="ITK-n1-w1f" firstAttribute="top" secondItem="yQG-KX-1Ry" secondAttribute="bottom" constant="8" symbolic="YES" id="bjY-mT-RIM"/>
+                            <constraint firstItem="Anx-5F-RMu" firstAttribute="top" secondItem="p9N-k6-RgQ" secondAttribute="bottom" constant="8" symbolic="YES" id="bmA-6w-NgO"/>
+                            <constraint firstItem="yQG-KX-1Ry" firstAttribute="top" secondItem="so6-yk-SS2" secondAttribute="bottom" constant="8" symbolic="YES" id="fw2-Gh-tkV"/>
+                            <constraint firstItem="so6-yk-SS2" firstAttribute="leading" secondItem="yQG-KX-1Ry" secondAttribute="leading" id="h7l-vU-opM"/>
+                            <constraint firstItem="yQG-KX-1Ry" firstAttribute="leading" secondItem="ITK-n1-w1f" secondAttribute="leading" id="ovJ-f7-Q4w"/>
+                            <constraint firstItem="yQG-KX-1Ry" firstAttribute="trailing" secondItem="ITK-n1-w1f" secondAttribute="trailing" id="rcy-Qj-cWt"/>
+                            <constraint firstItem="p9N-k6-RgQ" firstAttribute="leading" secondItem="Anx-5F-RMu" secondAttribute="leading" id="t3l-tY-OAP"/>
+                            <constraint firstItem="so6-yk-SS2" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="uSo-FM-WQP"/>
+                            <constraint firstItem="ITK-n1-w1f" firstAttribute="trailing" secondItem="p9N-k6-RgQ" secondAttribute="trailing" id="yQX-Y9-z2w"/>
+                            <constraint firstItem="p9N-k6-RgQ" firstAttribute="trailing" secondItem="Anx-5F-RMu" secondAttribute="trailing" id="z3B-Th-ikI"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Playing Card Game" id="Ndx-fR-SvW">
                         <barButtonItem key="rightBarButtonItem" title="History" id="d6f-1c-DGY">
@@ -88,15 +102,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dSq-mG-vAG">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="dSq-mG-vAG">
                                 <rect key="frame" x="20" y="72" width="374" height="607"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="dSq-mG-vAG" firstAttribute="trailing" secondItem="nyN-YD-ldo" secondAttribute="trailingMargin" id="597-9c-5ZC"/>
+                            <constraint firstItem="dSq-mG-vAG" firstAttribute="leading" secondItem="nyN-YD-ldo" secondAttribute="leadingMargin" id="ExI-7X-H0Y"/>
+                            <constraint firstItem="MnH-TH-cgi" firstAttribute="top" secondItem="dSq-mG-vAG" secondAttribute="bottom" constant="8" symbolic="YES" id="HZM-kH-1Xl"/>
+                            <constraint firstItem="dSq-mG-vAG" firstAttribute="top" secondItem="xUg-sV-Omb" secondAttribute="bottom" constant="8" symbolic="YES" id="O0B-wD-OTv"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="historyTextView" destination="dSq-mG-vAG" id="fRB-D6-ZT6"/>
@@ -137,42 +156,55 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vgn-wp-agS">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vgn-wp-agS">
                                 <rect key="frame" x="20" y="620" width="374" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="gvD-hB-tUo">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="gvD-hB-tUo">
                                 <rect key="frame" x="18" y="72" width="378" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="historySliderChanged:" destination="mWn-vz-n0s" eventType="valueChanged" id="XIQ-ww-KyN"/>
                                 </connections>
                             </slider>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Click on a card to start the game" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZyG-rN-klM">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click on a card to start the game" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZyG-rN-klM">
                                 <rect key="frame" x="20" y="591" width="374" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oo4-Ni-RFv">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oo4-Ni-RFv">
                                 <rect key="frame" x="20" y="649" width="374" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="New Game"/>
                                 <connections>
                                     <action selector="touchNewGameButton:" destination="mWn-vz-n0s" eventType="touchUpInside" id="eqU-9Y-WRZ"/>
                                 </connections>
                             </button>
-                            <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rnQ-aa-Ow1">
+                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rnQ-aa-Ow1">
                                 <rect key="frame" x="20" y="110" width="374" height="473"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="ZyG-rN-klM" firstAttribute="leading" secondItem="vgn-wp-agS" secondAttribute="leading" id="6MS-R6-Nj8"/>
+                            <constraint firstItem="ZyG-rN-klM" firstAttribute="top" secondItem="rnQ-aa-Ow1" secondAttribute="bottom" constant="8" symbolic="YES" id="8hO-ki-XAA"/>
+                            <constraint firstItem="vgn-wp-agS" firstAttribute="trailing" secondItem="Oo4-Ni-RFv" secondAttribute="trailing" id="EnK-IR-e9U"/>
+                            <constraint firstItem="rnQ-aa-Ow1" firstAttribute="top" secondItem="gvD-hB-tUo" secondAttribute="bottom" constant="8" symbolic="YES" id="Euw-wf-PiB"/>
+                            <constraint firstItem="gvD-hB-tUo" firstAttribute="trailing" secondItem="hFp-v0-APF" secondAttribute="trailingMargin" id="GNj-qD-mUP"/>
+                            <constraint firstItem="gvD-hB-tUo" firstAttribute="top" secondItem="mwI-lJ-LQd" secondAttribute="bottom" constant="8" symbolic="YES" id="L0Y-Gf-hkF"/>
+                            <constraint firstItem="ZyG-rN-klM" firstAttribute="trailing" secondItem="vgn-wp-agS" secondAttribute="trailing" id="O5j-Eg-58l"/>
+                            <constraint firstItem="DD7-pU-SK5" firstAttribute="top" secondItem="Oo4-Ni-RFv" secondAttribute="bottom" constant="8" symbolic="YES" id="TLb-6f-Psy"/>
+                            <constraint firstItem="rnQ-aa-Ow1" firstAttribute="leading" secondItem="ZyG-rN-klM" secondAttribute="leading" id="Twi-TD-bPu"/>
+                            <constraint firstItem="gvD-hB-tUo" firstAttribute="trailing" secondItem="rnQ-aa-Ow1" secondAttribute="trailing" id="awb-TZ-FDq"/>
+                            <constraint firstItem="vgn-wp-agS" firstAttribute="top" secondItem="ZyG-rN-klM" secondAttribute="bottom" constant="8" symbolic="YES" id="gBu-Sh-DRe"/>
+                            <constraint firstItem="Oo4-Ni-RFv" firstAttribute="top" secondItem="vgn-wp-agS" secondAttribute="bottom" constant="8" symbolic="YES" id="lIr-aB-Kig"/>
+                            <constraint firstItem="gvD-hB-tUo" firstAttribute="leading" secondItem="rnQ-aa-Ow1" secondAttribute="leading" id="pG5-hj-nes"/>
+                            <constraint firstItem="vgn-wp-agS" firstAttribute="leading" secondItem="Oo4-Ni-RFv" secondAttribute="leading" id="vpT-SY-seP"/>
+                            <constraint firstItem="gvD-hB-tUo" firstAttribute="leading" secondItem="hFp-v0-APF" secondAttribute="leadingMargin" id="xub-4Y-MGY"/>
+                            <constraint firstItem="rnQ-aa-Ow1" firstAttribute="trailing" secondItem="ZyG-rN-klM" secondAttribute="trailing" id="yJE-bs-E5L"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Set Card Game" id="udl-Ht-AWc">
                         <barButtonItem key="rightBarButtonItem" title="History" id="bbf-Ne-oxA">
@@ -246,23 +278,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="TOP 10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j1s-WN-CtU">
-                                <rect key="frame" x="179" y="28" width="56" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TOP 10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j1s-WN-CtU">
+                                <rect key="frame" x="178.66666666666666" y="28" width="56" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ABZ-V2-2d2">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ABZ-V2-2d2">
                                 <rect key="frame" x="20" y="129" width="374" height="550"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="VzI-HB-iQ2">
-                                <rect key="frame" x="77" y="93" width="261" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="VzI-HB-iQ2">
+                                <rect key="frame" x="76.666666666666686" y="93" width="261" height="29"/>
                                 <segments>
                                     <segment title="Playing Card Game"/>
                                     <segment title="Set Card Game"/>
@@ -271,9 +300,11 @@
                                     <action selector="onGameValueChanged:" destination="iSN-7b-LyV" eventType="valueChanged" id="FIk-BC-fYX"/>
                                 </connections>
                             </segmentedControl>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="TFo-uf-Tgy">
-                                <rect key="frame" x="151" y="57" width="112" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="TFo-uf-Tgy">
+                                <rect key="frame" x="150.66666666666669" y="57" width="112.00000000000006" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="112" id="4tg-Nk-kzH"/>
+                                </constraints>
                                 <segments>
                                     <segment title="Score"/>
                                     <segment title="Time"/>
@@ -284,6 +315,18 @@
                             </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="VzI-HB-iQ2" firstAttribute="top" secondItem="TFo-uf-Tgy" secondAttribute="bottom" constant="8" symbolic="YES" id="1SQ-eW-YS4"/>
+                            <constraint firstItem="ABZ-V2-2d2" firstAttribute="top" secondItem="VzI-HB-iQ2" secondAttribute="bottom" constant="8" symbolic="YES" id="DC0-RU-YY4"/>
+                            <constraint firstItem="j1s-WN-CtU" firstAttribute="top" secondItem="13p-bg-YDg" secondAttribute="bottom" constant="8" symbolic="YES" id="HWC-cO-l3D"/>
+                            <constraint firstItem="ABZ-V2-2d2" firstAttribute="trailing" secondItem="uFY-KJ-Rc6" secondAttribute="trailingMargin" id="Jgk-H9-gpz"/>
+                            <constraint firstItem="j1s-WN-CtU" firstAttribute="centerX" secondItem="TFo-uf-Tgy" secondAttribute="centerX" id="MEM-sQ-CHA"/>
+                            <constraint firstItem="TFo-uf-Tgy" firstAttribute="top" secondItem="j1s-WN-CtU" secondAttribute="bottom" constant="8" symbolic="YES" id="NXv-UK-1lb"/>
+                            <constraint firstItem="VzI-HB-iQ2" firstAttribute="centerX" secondItem="ABZ-V2-2d2" secondAttribute="centerX" id="SAl-3Q-Pon"/>
+                            <constraint firstItem="X4O-AR-dxQ" firstAttribute="top" secondItem="ABZ-V2-2d2" secondAttribute="bottom" constant="8" symbolic="YES" id="kpl-0i-iLC"/>
+                            <constraint firstItem="TFo-uf-Tgy" firstAttribute="centerX" secondItem="VzI-HB-iQ2" secondAttribute="centerX" id="sb1-1p-sWS"/>
+                            <constraint firstItem="ABZ-V2-2d2" firstAttribute="leading" secondItem="uFY-KJ-Rc6" secondAttribute="leadingMargin" id="uxV-ub-dli"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="High Scores" id="9uc-wb-DdR">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-18"/>
