@@ -84,6 +84,8 @@ static const CGFloat CELL_ASPECT_RATIO = 0.66;
 
 - (void)viewDidLoad
 {
+	[super viewDidLoad];
+
 	[self setup];
 }
 
@@ -250,9 +252,9 @@ static const CGFloat CELL_ASPECT_RATIO = 0.66;
 	self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", (long)self.game.score];
 
 	NSMutableAttributedString *lastCards = [[NSMutableAttributedString alloc] initWithString:@""];
-	for (Card* lastCard in self.game.lastCards) {
-		[lastCards appendAttributedString:[self titleForCard:lastCard]];
-	}
+	[self.game.lastCards enumerateObjectsUsingBlock:^(id _Nonnull card, NSUInteger idx, BOOL * _Nonnull stop) {
+		[lastCards appendAttributedString:[self titleForCard:card]];
+	}];
 
 	switch (self.game.lastStatus) {
 		case NOTHING:
@@ -283,6 +285,7 @@ static const CGFloat CELL_ASPECT_RATIO = 0.66;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+	[super prepareForSegue:segue sender:sender];
 	if ([[segue identifier] isEqualToString:@"showHistorySegue"]) {
 		HistoryViewController *historyViewController = [segue destinationViewController];
 		historyViewController.historyInfos = self.historyInfos;

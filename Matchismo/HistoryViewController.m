@@ -19,6 +19,7 @@
 
 - (void)viewDidLoad
 {
+	[super viewDidLoad];
 	NSMutableAttributedString *history = [[NSMutableAttributedString alloc] initWithString:@""];
 	for (int i = 0; i < [self.historyInfos count]; ++i) {
 		[history appendAttributedString:self.historyInfos[i]];

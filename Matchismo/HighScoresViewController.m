@@ -24,6 +24,7 @@
 
 - (void)viewDidLoad
 {
+	[super viewDidLoad];
 	self.formatter = [NSNumberFormatter new];
 	[self.formatter setMaximumFractionDigits:2];
 	[self.formatter setRoundingMode:NSNumberFormatterRoundDown];
@@ -83,6 +84,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+	[super viewWillAppear:animated];
 	[self updateUI];
 }
 
